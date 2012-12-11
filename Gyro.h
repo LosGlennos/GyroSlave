@@ -12,7 +12,7 @@ void delayms(int count);
 void DataTx(char data);
 char DataRx();
 void InitializeGyro();
-void ReadAngularRate(int *angularrate);
+void ReadAngularRate(short *angularrate);
 void SumAngular(int *angularrate, int *angularSum);
 void ResetAngularSum(int *angularSum);
 

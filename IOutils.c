@@ -9,13 +9,13 @@ unsigned char buttonWasPressed = 0;
 void IO_Init(void)
 {
     ADCON1 = 0x0F; // Port as Digital IO
-    TRISAbits.TRISA0 = 0; // Led pin as output
+    //TRISAbits.TRISA0 = 0; // Led pin as output
     TRISAbits.TRISA1 = 0; // Led pin as output
     TRISAbits.TRISA2 = 0; // Led pin as output
     TRISAbits.TRISA3 = 0; // Led pin as output
     TRISEbits.TRISE2 = 1; // Button as input
     PORTEbits.RE2 = 0;
-    LED         = 0; // LED off
+    //LED         = 0; // LED off
     STOPLED     = 0; // LED off
     PREOPLED    = 0; // LED off
     OPLED       = 0; // LED off

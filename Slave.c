@@ -47,22 +47,14 @@ unsigned char uDemoSyncSet;				// Internal TPDO type control
 
 int angularSum = 0x0000;
 short angularrate = 0x0000;
-unsigned char sumMode = 0x00;
-unsigned char angularRateMode = 0x00;
 
-static int timerCounter = 90;
+unsigned char sumMode = 0x00;
+unsigned char angularRateMode = 0x01;
+
+static int timerCounter = 0;
 
 void Slave_Init(void)
 {
-	uLocalRcvBuffer[0] = uLocalXmtBuffer[0] = 0;
-	uLocalRcvBuffer[1] = uLocalXmtBuffer[1] = 0;
-	uLocalRcvBuffer[2] = uLocalXmtBuffer[2] = 0;
-	uLocalRcvBuffer[3] = uLocalXmtBuffer[3] = 0;
-	uLocalRcvBuffer[4] = uLocalXmtBuffer[4] = 0;
-	uLocalRcvBuffer[5] = uLocalXmtBuffer[5] = 0;
-	uLocalRcvBuffer[6] = uLocalXmtBuffer[6] = 0;
-	uLocalRcvBuffer[7] = uLocalXmtBuffer[7] = 0;
-
         // Convert to MCHP
 	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000200L);
 	// Store the COB
@@ -73,62 +65,29 @@ void Slave_Init(void)
 	// Store the COB
 	mTPDOSetCOB(2, mTOOLS_GetCOBID());
 
-        //Convert to MCHP
-        mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000400L);
-        //Store the COB
-        mRPDOSetCOB(3, mTOOLS_GetCOBID());
-
         // Set the pointer to the buffers
 	mTPDOSetTxPtr(1, (unsigned char *)(&angularSum));
 	mTPDOSetTxPtr(2, (unsigned char *)(&angularrate));
-        mRPDOSetRxPtr(3, (unsigned char *)(&uLocalXmtBuffer[0]));
+        //mRPDOSetRxPtr(3, (unsigned char *)(&uLocalXmtBuffer[0]));
 
 	// Set the length
 	mTPDOSetLen(1, 4);
-        mTPDOSetLen(2, 4);
+        mTPDOSetLen(2, 2);
 }
 
 void Slave_ProcessEvents(void)
 {
     ReadAngularRate(&angularrate);
-    /*if (sumMode)
+    SumAngular(&angularrate, &angularSum);
+    
+    if(sumMode)
     {
-        SumAngular(&angularrate, angularSum);
+        if(mTPDOIsPutRdy(1))
+        {
+            mTPDOWritten(1);
+        }
     }
-   
-
-    if(angularRateMode)
-    {
-        if (mTPDOIsPutRdy(2))
-            mTPDOWritten(2);
-    }
-    // If ready to send
-    if (mTPDOIsPutRdy(1))
-    {
-    }
-
-    if(mTPDOIsPutRdy(1))
-    {
-    }
-
-    // If any data has been received
-    if (mRPDOIsGetRdy(1))
-    {
-    }*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*********************************************************************
  * Function:        void CO_COMMSyncEvent(void)
@@ -385,17 +344,20 @@ void CO_COMM_TPDO1_TypeAccessEvent(void)
  ********************************************************************/
 void CO_PDO1LSTimerEvent(void)
 {
-    timerCounter -= CO_TICK_PERIOD;
-    if (timerCounter <= 0)
-    {
-        timerCounter = 90;
-        COMM_PDO_1_TF = 1;
-    }
+
 }
 
 void CO_PDO2LSTimerEvent(void)
 {
-
+    if(angularRateMode)
+    {
+        timerCounter++;
+        if(timerCounter == 10)
+        {
+            timerCounter = 0;
+            COMM_PDO_2_TF = 1;
+        }
+    }
 }
 
 void CO_PDO3LSTimerEvent(void)

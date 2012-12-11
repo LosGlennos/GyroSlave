@@ -28,12 +28,12 @@
       <itemPath>Slave.h</itemPath>
       <itemPath>Timer.h</itemPath>
       <itemPath>NMTextension.h</itemPath>
-      <itemPath>CO_DEFS.DEF</itemPath>
       <itemPath>CO_dict.def</itemPath>
       <itemPath>CO_MFTR.DEF</itemPath>
       <itemPath>CO_PDO.DEF</itemPath>
       <itemPath>CO_STD.DEF</itemPath>
       <itemPath>Gyro.h</itemPath>
+      <itemPath>CO_DEFS.DEF</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

@@ -28,10 +28,6 @@ extern unsigned char uIOinDigiInputs;			// 0x6000 digital inputs
 
 extern unsigned char uIOinDigiInOld;			
 
-
-
-
-
 extern unsigned char uLocalXmtBuffer[8];			// Local buffer for TPDO1
 extern unsigned char uLocalRcvBuffer[8];			// local buffer fot RPDO1
 

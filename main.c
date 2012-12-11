@@ -86,36 +86,20 @@ void main(void)
 	TimerInit();			// Init my timer
 
 	mSYNC_SetCOBID(0x1000);		// Set the SYNC COB ID (MCHP format)
-        
-#ifdef MASTER
-	mCO_SetNodeID(0x02);		// Set the Node ID
-#endif
-#ifdef SLAVE1
+
 	mCO_SetNodeID(0x04);		// Set the Node ID
-#endif
-#ifdef SLAVE2
-	mCO_SetNodeID(0x06);		// Set the Node ID
-#endif
-#ifdef SLAVE3
-	mCO_SetNodeID(0x08);		// Set the Node ID
-#endif
 
         // 0x04 => 250kbps
-	mCO_SetBaud(0x04);		// Set the baudrate
+        // 0x00 => 1Mbps
+	mCO_SetBaud(0x05);		// Set the baudrate
 
-	mNMTE_SetHeartBeat(5000);	// Set the initial heartbeat
-	mNMTE_SetGuardTime(0000);	// Set the initial guard time
+	mNMTE_SetHeartBeat(0x0004);	// Set the initial heartbeat
+	mNMTE_SetGuardTime(0x0000);	// Set the initial guard time
 	mNMTE_SetLifeFactor(0x00);	// Set the initial life time
 
         IO_Init();
-
-#ifdef MASTER
-	Master_Init();
-#endif
-#if defined SLAVE1 || defined SLAVE2 || defined SLAVE3
         InitializeGyro();
         Slave_Init();
-#endif
         
 	mCO_InitAll();	// Initialize CANopen to run, bootup will be sent
 
@@ -140,12 +124,8 @@ void main(void)
 		mCO_ProcessAllEvents();
 
                 // Process application specific functions
-#ifdef MASTER
-                Master_ProcessEvents();
-#endif
-#if defined SLAVE1 || defined SLAVE2 || defined SLAVE3
+
                 Slave_ProcessEvents();
-#endif
 		
 		// 1ms timer events
 		if (TimerIsOverflowEvent())
