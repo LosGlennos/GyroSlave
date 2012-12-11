@@ -106,16 +106,13 @@ void main(void)
         if( !COMM_STATE_PREOP )
             while( 1 );
 
-        /*STOPLED  = COMM_STATE_STOP;
+        STOPLED  = COMM_STATE_STOP;
         PREOPLED = COMM_STATE_PREOP;
-        OPLED    = COMM_STATE_OPER;*/
+        OPLED    = COMM_STATE_OPER;
 
         // Enable TPDO:s and RPDO:s
         mTPDOOpen(1);
-        mRPDOOpen(1);
-
         mTPDOOpen(2);
-        mRPDOOpen(2);
 
 	while(1)
 	{
