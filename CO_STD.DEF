@@ -4,13 +4,7 @@
  * Be sure to include all headers here that relate to the symbols
  * below.
  ********************************************************************/
-//#include "DemoObj.h"
-#ifdef MASTER
-#include "Master.h"
-#endif
-#if defined SLAVE1 || defined SLAVE2 || defined SLAVE3
 #include "Slave.h"
-#endif
 
 
 /*********************************************************************
