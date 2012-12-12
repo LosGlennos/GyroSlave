@@ -1,16 +1,7 @@
-/* 
- * File:   Slave.h
- * Author: staffan
- *
- * Created on den 14 november 2012, 13:46
- */
-
 #ifndef SLAVE_H
 #define	SLAVE_H
 
-#include "Compilation.h"
 
-#if defined SLAVE1 || defined SLAVE2
 // These are mapping constants for TPDO1
 // starting at 0x1A00 in the dictionary
 extern rom unsigned long uTPDO1Map;

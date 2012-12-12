@@ -1,10 +1,3 @@
-/* 
- * File:   NMTextension.h
- * Author: staffan
- *
- * Created on den 5 november 2012, 22:11
- */
-
 #ifndef EXTTST_H
 #define	EXTTST_H
 

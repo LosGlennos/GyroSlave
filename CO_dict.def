@@ -62,13 +62,4 @@
 			{0x1200,0x02,FUNC | RO,4,{(rom unsigned char *)&_CO_COMM_SDO1_SC_COBIDAccessEvent}},    \\
 			{0x1200,0x03,RW,1,{(rom unsigned char *)&sumMode}},                                     \\
                         {0x1200,0x04,RW,1,{(rom unsigned char *)&angularRateMode}}
-
-
-	
-				
-				
-				
-				
-				
-				
-				
+		

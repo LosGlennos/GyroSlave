@@ -1,10 +1,7 @@
-/* 
- * File:   IOutils.h
- * Author: staffan
- */
-
 #ifndef IOUTILS_H
 #define	IOUTILS_H
+
+#include <p18F4680.h>
 
 #define BTN             PORTEbits.RE2
 #define LED             PORTAbits.RA0

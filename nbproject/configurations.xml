@@ -20,11 +20,8 @@
       <itemPath>CO_SYNC.h</itemPath>
       <itemPath>CO_TOOLS.h</itemPath>
       <itemPath>CO_types.h</itemPath>
-      <itemPath>Compilation.h</itemPath>
       <itemPath>Globals.h</itemPath>
       <itemPath>IOutils.h</itemPath>
-      <itemPath>Master.h</itemPath>
-      <itemPath>NMTMaster.h</itemPath>
       <itemPath>Slave.h</itemPath>
       <itemPath>Timer.h</itemPath>
       <itemPath>NMTextension.h</itemPath>
@@ -34,6 +31,7 @@
       <itemPath>CO_STD.DEF</itemPath>
       <itemPath>Gyro.h</itemPath>
       <itemPath>CO_DEFS.DEF</itemPath>
+      <itemPath>PRAGMAS.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -58,8 +56,6 @@
       <itemPath>CO_SYNC.c</itemPath>
       <itemPath>CO_TOOLS.c</itemPath>
       <itemPath>IOutils.c</itemPath>
-      <itemPath>Master.c</itemPath>
-      <itemPath>NMTMaster.c</itemPath>
       <itemPath>Slave.c</itemPath>
       <itemPath>Timer.c</itemPath>
       <itemPath>NMTextension.c</itemPath>

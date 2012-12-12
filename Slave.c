@@ -1,13 +1,9 @@
 #include	"CO_MAIN.H"
-#include        "Compilation.h"
 #include        "Slave.h"
 #include        "IOutils.h"
 #include        "CO_PDO.h"
 #include        "CO_CANDRV.H"
 #include        "Gyro.h"
-
-
-#if defined SLAVE1 || defined SLAVE2
 
 #define	RTR_DIS	bytes.B1.bits.b2
 #define STD_DIS	bytes.B1.bits.b3
@@ -405,16 +401,4 @@ void CO_PDO4TXFinEvent(void)
 {
 
 }
-
-
-
-
-
-
-
-
-
-
-
-#endif
 
