@@ -33,6 +33,7 @@ extern unsigned char angularRateMode;
 
 enum ApplicationState
 {
+    INITIALIZATION,
     PREMANEUVER,
     MANEUVER,
     POSTMANEUVER

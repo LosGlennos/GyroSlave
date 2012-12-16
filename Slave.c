@@ -55,7 +55,7 @@ unsigned char State = 0x00;
 
 static int timerCounter = 0;
 
-enum ApplicationState APPLICATION_STATE = PREMANEUVER;
+enum ApplicationState APPLICATION_STATE = INITIALIZATION;
 
 void Slave_Init(void)
 {

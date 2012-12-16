@@ -42,6 +42,8 @@ void main(void)
         mRPDOOpen(1);
         mRPDOOpen(2);
 
+        mAppGoToPREMANEUVERstate(); // Actually when start is received.
+
 	while(1)
 	{
                 
