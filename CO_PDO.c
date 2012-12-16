@@ -48,6 +48,7 @@
 #include	"CO_COMM.H"				// Object
 #include	"CO_PDO.H"
 #include "IOutils.h"
+#include "Slave.h"
 
 
 
@@ -103,7 +104,6 @@ void _CO_COMM_PDO1_Close(void)
 
 void _CO_COMM_PDO1_RXEvent(void)
 {
-
     *((_DATA8 *)(_uPDO1.RPDO.buf)) = *((_DATA8 *)(mCANGetPtrRxData()));
     _uPDO1.RPDO.len = mCANGetDataLen();
 }
@@ -119,12 +119,6 @@ void _CO_COMM_PDO1_TXEvent(void)
 	mCANPutDataLen(_uPDO1.TPDO.len);
 }
 
-
-
-
-
-
-#if CO_NUM_OF_PDO > 1
 void _CO_COMM_PDO2_Open(void)
 {
 	// Call the driver and request to open a receive endpoint
@@ -154,7 +148,6 @@ void _CO_COMM_PDO2_TXEvent(void)
 	*((_DATA8 *)(mCANGetPtrTxData())) = *((_DATA8 *)(_uPDO2.TPDO.buf));
 	mCANPutDataLen(_uPDO2.TPDO.len);
 }
-#endif
 
 
 

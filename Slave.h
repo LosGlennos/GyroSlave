@@ -31,6 +31,17 @@ extern short angularrate;
 extern unsigned char sumMode;
 extern unsigned char angularRateMode;
 
+enum ApplicationState
+{
+    PREMANEUVER,
+    MANEUVER,
+    POSTMANEUVER
+};
+extern enum ApplicationState APPLICATION_STATE;
+#define mAppGoToPREMANEUVERstate() APPLICATION_STATE = PREMANEUVER
+#define mAppGoToMANEUVERstate() APPLICATION_STATE = MANEUVER
+#define mAppGoToPOSTMANEUVERstate() APPLICATION_STATE = POSTMANEUVER
+
 void Slave_Init(void);
 void Slave_ProcessEvents(void);
 

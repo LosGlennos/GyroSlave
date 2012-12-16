@@ -39,6 +39,8 @@ void main(void)
         // Enable TPDO:s and RPDO:s
         mTPDOOpen(1);
         mTPDOOpen(2);
+        mRPDOOpen(1);
+        mRPDOOpen(2);
 
 	while(1)
 	{

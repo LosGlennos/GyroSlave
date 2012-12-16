@@ -41,23 +41,31 @@ UNSIGNED8 uDemoState; 					// Bits used to control various states
 unsigned char uDemoSyncCount;			// Counter for synchronous types
 unsigned char uDemoSyncSet;				// Internal TPDO type control
 
+//Variables for angular
 int angularSum = 0x0000;
 short angularrate = 0x0000;
 
+//Variables for different modes
 unsigned char sumMode = 0x00;
 unsigned char angularRateMode = 0x01;
 
+//Variables for different states
+unsigned char StartManeuver = 0x00;
+unsigned char State = 0x00;
+
 static int timerCounter = 0;
+
+enum ApplicationState APPLICATION_STATE = PREMANEUVER;
 
 void Slave_Init(void)
 {
         // Convert to MCHP
-	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000200L);
+	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000284L);
 	// Store the COB
 	mTPDOSetCOB(1, mTOOLS_GetCOBID());
 
 	// Convert to MCHP
-	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000300L);
+	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000184L);
 	// Store the COB
 	mTPDOSetCOB(2, mTOOLS_GetCOBID());
 
@@ -65,6 +73,16 @@ void Slave_Init(void)
 	mTPDOSetTxPtr(1, (unsigned char *)(&angularSum));
 	mTPDOSetTxPtr(2, (unsigned char *)(&angularrate));
         //mRPDOSetRxPtr(3, (unsigned char *)(&uLocalXmtBuffer[0]));
+
+        // RPDO1
+	mTOOLS_CO2MCHP(0xC0000182L);
+	mRPDOSetCOB(1, mTOOLS_GetCOBID());
+        mRPDOSetRxPtr(1, (unsigned char *)(&StartManeuver));
+
+        // RPDO2
+	mTOOLS_CO2MCHP(0xC0000181L);
+	mRPDOSetCOB(2, mTOOLS_GetCOBID());
+        mRPDOSetRxPtr(2, (unsigned char *)(&State));
 
 	// Set the length
 	mTPDOSetLen(1, 4);
@@ -74,12 +92,26 @@ void Slave_Init(void)
 void Slave_ProcessEvents(void)
 {
     ReadAngularRate(&angularrate);
-    SumAngular(&angularrate, &angularSum);
+    if(APPLICATION_STATE == MANEUVER)
+        SumAngular(&angularrate, &angularSum);
+
+    if(mRPDOIsGetRdy(1))
+    {
+        mAppGoToMANEUVERstate();
+        mRPDORead(1);
+    }
+    if(mRPDOIsGetRdy(2))
+    {
+        mAppGoToPOSTMANEUVERstate();
+        sumMode = 0x01;
+        mRPDORead(2);
+    }
     
     if(sumMode)
     {
         if(mTPDOIsPutRdy(1))
         {
+            sumMode = 0x00;
             mTPDOWritten(1);
         }
     }
@@ -345,7 +377,7 @@ void CO_PDO1LSTimerEvent(void)
 
 void CO_PDO2LSTimerEvent(void)
 {
-    if(angularRateMode)
+    if(angularRateMode && (APPLICATION_STATE != MANEUVER))
     {
         timerCounter++;
         if(timerCounter == 10)
