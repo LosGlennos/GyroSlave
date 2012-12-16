@@ -60,12 +60,12 @@ enum ApplicationState APPLICATION_STATE = INITIALIZATION;
 void Slave_Init(void)
 {
         // Convert to MCHP
-	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000284L);
+	mTOOLS_CO2MCHP(0xC0000284L);
 	// Store the COB
 	mTPDOSetCOB(1, mTOOLS_GetCOBID());
 
 	// Convert to MCHP
-	mTOOLS_CO2MCHP(mCOMM_GetNodeID().byte + 0xC0000184L);
+	mTOOLS_CO2MCHP(0xC0000184L);
 	// Store the COB
 	mTPDOSetCOB(2, mTOOLS_GetCOBID());
 
