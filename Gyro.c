@@ -1,19 +1,11 @@
-/* 
- * File:   Gyro.c
- * Author: Martin
- *
- * Created on den 6 november 2012, 13:58
- */
-
 #include <p18f4680.h>
 #include <spi.h>
 #include <delays.h>
 #include "Gyro.h"
+#include "Globals.h"
 
 
 #define SPI_CS LATAbits.LATA0
-#define TRUE 1
-#define FALSE 0
 
 void delayms(int count)   //Gives a delay of 1 Ms
 {

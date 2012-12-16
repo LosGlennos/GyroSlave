@@ -46,18 +46,12 @@ void main(void)
 
 	while(1)
 	{
-                
-		// Process CANopen events
 		mCO_ProcessAllEvents();
-
-                // Process application specific functions
 
                 Slave_ProcessEvents();
 		
-		// 1ms timer events
 		if (TimerIsOverflowEvent())
 		{
-			// Process timer related events
 			mCO_ProcessAllTimeEvents();	
 		}
 

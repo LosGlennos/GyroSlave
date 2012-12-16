@@ -1,4 +1,3 @@
-#include <p18F4680.h>
 #include "IOutils.h"
 #include "Globals.h"
 
