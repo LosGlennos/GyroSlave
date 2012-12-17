@@ -3,9 +3,12 @@
 #include <delays.h>
 #include "Gyro.h"
 #include "Globals.h"
+#include "IOutils.h"
 
 
 #define SPI_CS LATAbits.LATA0
+
+#define ANGULAR_LIMIT
 
 void delayms(int count)   //Gives a delay of 1 Ms
 {
@@ -82,6 +85,14 @@ void ReadAngularRate(short *angularrate)
 
     if( neg )
         *angularrate = -512 + *angularrate;
+    
+#ifdef ANGULAR_LIMIT
+    if((*angularrate < -100))
+        *angularrate = -100;
+
+    else if((*angularrate > 100))
+        *angularrate = 100;
+#endif
 }
 
 void SumAngular(int *angularrate, int *angularSum)

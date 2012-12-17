@@ -59,6 +59,14 @@ enum ApplicationState APPLICATION_STATE = INITIALIZATION;
 
 void Slave_Init(void)
 {
+        uLocalXmtBuffer[0] = 0;
+        uLocalXmtBuffer[1] = 0;
+        uLocalXmtBuffer[2] = 0;
+        uLocalXmtBuffer[3] = 0;
+        uLocalXmtBuffer[4] = 0;
+        uLocalXmtBuffer[5] = 0;
+        uLocalXmtBuffer[6] = 0;
+        uLocalXmtBuffer[7] = 0;
         // Convert to MCHP
 	mTOOLS_CO2MCHP(0xC0000284L);
 	// Store the COB
