@@ -8,7 +8,7 @@
 
 #define SPI_CS LATAbits.LATA0
 
-#define ANGULAR_LIMIT
+short oldAngularrate = 0;
 
 void delayms(int count)   //Gives a delay of 1 Ms
 {
@@ -56,7 +56,8 @@ void ReadAngularRate(short *angularrate)
     unsigned char temp = 0x00;
     char neg = 0x00;
     char test = 0x00;
-
+    unsigned char ErrorCode = 0x00;
+    
     *angularrate = 0;
 
     //Send LowByte command
@@ -71,28 +72,30 @@ void ReadAngularRate(short *angularrate)
     //Receive LowByte
     lowbyte = DataRx();
 
-    temp = lowbyte & 0x03;
-
-    test = highbyte & 0x80;
-
-    if(test)
-        neg = TRUE;
+    ErrorCode = 0x80 & lowbyte;
+    if(ErrorCode == 0x80)
+    {
+        *angularrate = oldAngularrate;
+    }
     else
-        neg = FALSE;
+    {
+        temp = lowbyte & 0x03;
 
-    highbyte = highbyte & 0x7F;
-    *angularrate = ( (short)highbyte << 2 ) | temp;
+        test = highbyte & 0x80;
 
-    if( neg )
-        *angularrate = -512 + *angularrate;
-    
-#ifdef ANGULAR_LIMIT
-    if((*angularrate < -100))
-        *angularrate = -100;
+        if(test)
+            neg = TRUE;
+        else
+            neg = FALSE;
 
-    else if((*angularrate > 100))
-        *angularrate = 100;
-#endif
+        highbyte = highbyte & 0x7F;
+        *angularrate = ( (short)highbyte << 2 ) | temp;
+
+        if( neg )
+            *angularrate = -512 + *angularrate;
+        
+        oldAngularrate = *angularrate;
+    }
 }
 
 void SumAngular(int *angularrate, int *angularSum)
