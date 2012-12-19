@@ -51,13 +51,12 @@ void InitializeGyro()
 
 void ReadAngularRate(short *angularrate)
 {
-    signed char highbyte = 0x00;
+    unsigned char highbyte = 0x00;
     unsigned char lowbyte = 0x00;
     unsigned char temp = 0x00;
     char neg = 0x00;
     char test = 0x00;
-    unsigned char ErrorCode = 0x00;
-    
+
     *angularrate = 0;
 
     //Send LowByte command
@@ -72,30 +71,21 @@ void ReadAngularRate(short *angularrate)
     //Receive LowByte
     lowbyte = DataRx();
 
-    ErrorCode = 0x80 & lowbyte;
-    if(ErrorCode == 0x80)
-    {
-        *angularrate = oldAngularrate;
-    }
+    temp = lowbyte & 0x03;
+
+    test = highbyte & 0x80;
+
+    if(test)
+        neg = TRUE;
     else
-    {
-        temp = lowbyte & 0x03;
+        neg = FALSE;
 
-        test = highbyte & 0x80;
+    highbyte = highbyte & 0x7F;
+    *angularrate = ( (short)highbyte << 2 ) | temp;
 
-        if(test)
-            neg = TRUE;
-        else
-            neg = FALSE;
+    if( neg )
+        *angularrate = -512 + *angularrate;
 
-        highbyte = highbyte & 0x7F;
-        *angularrate = ( (short)highbyte << 2 ) | temp;
-
-        if( neg )
-            *angularrate = -512 + *angularrate;
-        
-        oldAngularrate = *angularrate;
-    }
 }
 
 void SumAngular(int *angularrate, int *angularSum)

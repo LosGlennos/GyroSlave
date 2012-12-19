@@ -79,7 +79,7 @@ void Slave_Init(void)
 
         // Set the pointer to the buffers
 	mTPDOSetTxPtr(1, (unsigned char *)(&angularSum));
-	mTPDOSetTxPtr(2, (unsigned char *)(&angularrate));
+	mTPDOSetTxPtr(2, (unsigned char *)(&uLocalXmtBuffer[0]));
         //mRPDOSetRxPtr(3, (unsigned char *)(&uLocalXmtBuffer[0]));
 
         // RPDO1
@@ -94,12 +94,14 @@ void Slave_Init(void)
 
 	// Set the length
 	mTPDOSetLen(1, 4);
-        mTPDOSetLen(2, 2);
+        mTPDOSetLen(2, 8);
 }
 
 void Slave_ProcessEvents(void)
 {
     ReadAngularRate(&angularrate);
+    uLocalXmtBuffer[0] = angularrate & 0xFF;
+    uLocalXmtBuffer[1] = (angularrate >> 8) & 0xFF;
     if(APPLICATION_STATE == MANEUVER)
         SumAngular(&angularrate, &angularSum);
 
